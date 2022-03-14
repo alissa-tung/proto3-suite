@@ -1470,6 +1470,8 @@ dotProtoServiceD pkgIdent ctxt serviceIdent service = do
             HsTypeSig defaultSrcLoc [ HsIdent serverFuncName ]
                         (HsQualType [] (HsTyFun serverT (HsTyFun serviceOptionsC ioActionT)))
 
+     _ <- error "aaaaaaaaaaaaaa"
+
      let serviceServerD = HsFunBind [serverFuncD]
            where
              serverFuncD =
@@ -1489,6 +1491,7 @@ dotProtoServiceD pkgIdent ctxt serviceIdent service = do
                                , patVar "logger"
                                , patVar "serverMaxReceiveMessageLength"
                                , patVar "serverMaxMetadataSize"
+                               , patVar "onStarted"
                                ]
                       ]
                       (HsUnGuardedRhs (apply serverLoopE [ serverOptsE ]))
@@ -1534,6 +1537,7 @@ dotProtoServiceD pkgIdent ctxt serviceIdent service = do
                  , update "optLogger" "logger"
                  , update "optMaxReceiveMessageLength" "serverMaxReceiveMessageLength"
                  , update "optMaxMetadataSize" "serverMaxMetadataSize"
+                 , update "optOnStarted" "onStarted"
                  ]
 
      let clientT = tyApp (HsTyCon (unqual_ serviceName)) [ clientRequestT, clientResultT ]
